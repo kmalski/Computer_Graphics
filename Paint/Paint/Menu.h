@@ -18,8 +18,7 @@ public:
 	const sf::Color & getFillColor() const;
 	void setBorderColor(const sf::Color &color);
 	void setFillColor(const sf::Color &color);
-	void stringToWstring(const std::string &str, std::wstring &wstr);
-	void setCurrentAction(sf::Keyboard::Key key);
+	bool setCurrentAction(sf::Keyboard::Key key);
 	sf::Drawable * drawRectangle(const sf::Vector2f &movePosition, const sf::Vector2f &clickPosition, const bool &isTransparent);
 	sf::Drawable * drawCircle(const sf::Vector2f &movePosition, const sf::Vector2f &clickPosition);
 	sf::Drawable * drawLine(const sf::Vector2f &movePosition, const sf::Vector2f &clickPosition);

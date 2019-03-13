@@ -53,7 +53,7 @@ Menu::Menu(sf::RenderWindow *parent) : parent(parent) {
 	fillColorRec->setFillColor(fillColor);
 
 	//ustawianie aktualnej akcji
-	stringToWstring("", currentAction);
+	currentAction = L"";
 }
 
 Menu::~Menu() {
@@ -139,52 +139,43 @@ void Menu::setFillColor(const sf::Color &color) {
 	fillColor = color;
 }
 
-void Menu::stringToWstring(const std::string &str, std::wstring &wstr) {
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	wstr = converter.from_bytes(str);
-}
-
-void Menu::setCurrentAction(sf::Keyboard::Key key) {
+bool Menu::setCurrentAction(sf::Keyboard::Key key) {
 	switch (key) {
 	case sf::Keyboard::F: {
-		stringToWstring("f", currentAction);
-		break;
+		currentAction = L"f";
+		return true;
 	}
 	case sf::Keyboard::B: {
-		stringToWstring("b", currentAction);
-		break;
+		currentAction = L"b";
+		return true;
 	}
 	case sf::Keyboard::L: {
-		stringToWstring("l", currentAction);
-		break;
+		currentAction = L"l";
+		return true;
 	}
 	case sf::Keyboard::R: {
-		stringToWstring("r", currentAction);
-		break;
+		currentAction = L"r";
+		return true;
 	}
 	case sf::Keyboard::A: {
-		stringToWstring("a", currentAction);
-		break;
+		currentAction = L"a";
+		return true;
 	}
 	case sf::Keyboard::C: {
-		stringToWstring("c", currentAction);
-		break;
+		currentAction = L"c";
+		return true;
 	}
 	case sf::Keyboard::W: {
-		stringToWstring("w", currentAction);
-		break;
+		currentAction = L"w";
+		return true;
 	}
 	case sf::Keyboard::O: {
-		stringToWstring("o", currentAction);
-		break;
-	}
-	case sf::Keyboard::Z: {
-		stringToWstring("Ctrl+z", currentAction);
-		break;
+		currentAction = L"o";
+		return true;
 	}
 	default:
-		stringToWstring("", currentAction);
-		break;
+		currentAction = L"";
+		return false;
 	}
 }
 

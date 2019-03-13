@@ -14,8 +14,10 @@ public:
 	void saveImage(const std::string filePath);
 	void loadImage(const std::string filePath, sf::Texture & texture);
 	void deleteLast();
+	void returnDeleted();
 
 private:
 	std::vector<sf::Drawable *> data;
+	std::vector<sf::Drawable *> deleted;
 	sf::RenderWindow *window;
 };

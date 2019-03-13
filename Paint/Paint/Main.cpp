@@ -40,12 +40,15 @@ int main()
 				if (event.key.code == sf::Keyboard::Escape)
 					window.close();
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && event.key.code == sf::Keyboard::Z) {
-						storage.deleteLast();
-						menu.setCurrentAction(lastPressedKey);
+					storage.deleteLast();
+					readyForAction = menu.setCurrentAction(lastPressedKey);
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && event.key.code == sf::Keyboard::Y) {
+					storage.returnDeleted();
+					readyForAction = menu.setCurrentAction(lastPressedKey);
 				}
 				else {
-					readyForAction = true;
-					menu.setCurrentAction(lastPressedKey);
+					readyForAction = menu.setCurrentAction(lastPressedKey);
 				}
 			}
 
@@ -79,26 +82,26 @@ int main()
 		if (readyForAction) {
 			if (onWorkspace) {
 				switch (lastPressedKey) {
-				case sf::Keyboard::R: {
-					sf::Drawable *rectangle = menu.drawRectangle(movePosition, clickPosition, true);
-					storage.addOrDelete(rectangle, isReleased, onWorkspace);
-					break;
-				}
-				case sf::Keyboard::A: {
-					sf::Drawable *rectangle = menu.drawRectangle(movePosition, clickPosition, false);
-					storage.addOrDelete(rectangle, isReleased, onWorkspace);
-					break;
-				}
-				case sf::Keyboard::C: {
-					sf::Drawable *circle = menu.drawCircle(movePosition, clickPosition);
-					storage.addOrDelete(circle, isReleased, onWorkspace);
-					break;
-				}
-				case sf::Keyboard::L: {
-					sf::Drawable *line = menu.drawLine(movePosition, clickPosition);
-					storage.addOrDelete(line, isReleased, onWorkspace);
-					break;
-				}
+					case sf::Keyboard::R: {
+						sf::Drawable *rectangle = menu.drawRectangle(movePosition, clickPosition, true);
+						storage.addOrDelete(rectangle, isReleased, onWorkspace);
+						break;
+					}
+					case sf::Keyboard::A: {
+						sf::Drawable *rectangle = menu.drawRectangle(movePosition, clickPosition, false);
+						storage.addOrDelete(rectangle, isReleased, onWorkspace);
+						break;
+					}
+					case sf::Keyboard::C: {
+						sf::Drawable *circle = menu.drawCircle(movePosition, clickPosition);
+						storage.addOrDelete(circle, isReleased, onWorkspace);
+						break;
+					}
+					case sf::Keyboard::L: {
+						sf::Drawable *line = menu.drawLine(movePosition, clickPosition);
+						storage.addOrDelete(line, isReleased, onWorkspace);
+						break;
+					}
 				}
 			}
 			else if (onColorPick) {
@@ -119,16 +122,13 @@ int main()
 		if (readyForAction) {
 			if (lastPressedKey == sf::Keyboard::Key::W) {
 				storage.saveImage(filePath);
-				menu.setCurrentAction(sf::Keyboard::Space);
-				readyForAction = false;
+				readyForAction = menu.setCurrentAction(sf::Keyboard::Space);
 			}
 			else if (lastPressedKey == sf::Keyboard::Key::O) {
-				readyForAction = false;
 				storage.loadImage(filePath, texture);
-				menu.setCurrentAction(sf::Keyboard::Space);
+				readyForAction = menu.setCurrentAction(sf::Keyboard::Space);
 			}
 		}
-
 	}
 
 	return 0;

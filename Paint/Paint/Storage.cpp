@@ -8,9 +8,12 @@ Storage::~Storage() {
 }
 
 void Storage::clearStorage() {
-	for (auto shape : data)
+	for (auto &shape : data)
 		delete shape;
 	data.clear();
+	for (auto &shape : deleted)
+		delete shape;
+	deleted.clear();
 }
 
 void Storage::addOrDelete(sf::Drawable *shape, bool &isReleased, bool &onWorkspace) {
@@ -54,7 +57,15 @@ void Storage::loadImage(const std::string filePath, sf::Texture & texture) {
 }
 
 void Storage::deleteLast() {
-	if(!data.empty())
+	if (!data.empty()) {
+		deleted.push_back(data.back());
 		data.pop_back();
+	}
 }
 
+void Storage::returnDeleted() {
+	if (!deleted.empty()) {
+		data.push_back(deleted.back());
+		deleted.pop_back();
+	}
+}
