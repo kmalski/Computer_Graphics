@@ -333,3 +333,4 @@ ASALocalRun/
 *.props
 *.vcxproj
 *.vcxproj.filters
+*.sln
