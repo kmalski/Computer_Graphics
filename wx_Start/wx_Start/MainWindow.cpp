@@ -26,6 +26,7 @@ MainWindow::MainWindow() :
 	wxImage bananaImg = wxImage(wxSize(50, 38));
 	bananaImg.LoadFile("banan.png", wxBITMAP_TYPE_PNG);
 	_bananaBitmap = new wxBitmap(bananaImg);
+	//SetBackgroundStyle(wxBG_STYLE_PAINT);
 }
 
 MainWindow::~MainWindow() {
@@ -96,6 +97,7 @@ void MainWindow::_itemChoiceOnChoice(wxCommandEvent &event) {
 }
 
 void MainWindow::_waggleCheckBoxOnCheckBox(wxCommandEvent &event) {
+	_angleScroll->Enable(event.IsChecked());
 	if (event.IsChecked()) {
 		_waggleTimer->Start(50);
 	}
