@@ -18,6 +18,7 @@ public:
 	Matrix4 getScaleMatrix(const double scaleX, const double scaleY, const double scaleZ) const;
 	Matrix4 getTranslationMatrix(const double translationX, const double translationY, const double translationZ) const;
 	Matrix4 getRotationMatrix(const double rotationX, const double rotationY, const double rotationZ) const;
+	void fancyColor();
 	void Repaint();
 
 protected:

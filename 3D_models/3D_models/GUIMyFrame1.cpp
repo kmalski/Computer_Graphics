@@ -4,6 +4,7 @@
 #include <cmath>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 #include "vecmat.h"
 
 struct Point {
@@ -21,6 +22,10 @@ struct Segment {
  Color color;
  Segment(Point _begin, Point _end, Color _color) : begin(_begin), end(_end), color(_color) {}
 };
+
+bool cmp(Segment &seg1, Segment &seg2) {
+	return seg1.end.y > seg2.end.y;
+}
 
 std::vector<Segment> data;
 
@@ -72,6 +77,7 @@ void GUIMyFrame1::m_button_load_geometry_click( wxCommandEvent& event )
    in.close();
   }
  }
+ fancyColor();
 }
 
 void GUIMyFrame1::Scrolls_Updated( wxScrollEvent& event )
@@ -139,6 +145,21 @@ Matrix4 GUIMyFrame1::getRotationMatrix(const double rotationX, const double rota
 	return rotation;
 }
 
+void GUIMyFrame1::fancyColor() {
+	double step = 255. / data.size();
+	double red = 255.;
+	double blue = 0.;
+
+	sort(data.begin(), data.end(), cmp);
+
+	for (auto & segment : data) {
+		segment.color.R = red;
+		segment.color.B = blue;
+		red -= step;
+		blue += step;
+	}
+}
+
 void GUIMyFrame1::Repaint() {
 	wxClientDC dc(WxPanel);
 	wxBufferedDC dcBuff(&dc);
@@ -166,23 +187,22 @@ void GUIMyFrame1::Repaint() {
 		end.Set(segment.end.x, segment.end.y, segment.end.z);
 		end = transformation * end;
 
-		if (end.GetZ() < 0)
-			end.data[2] = 0.0001;
-		if (start.GetZ() < 0)
-			start.data[2] = 0.0001;
-		if (start.GetZ() < 0 && end.GetZ() < 0) {
-			start.data[2] = 0.;
-			end.data[2] = 0.;
+		if (end.GetZ() < 0 && start.GetZ() > 0)
+			end.data[2] = 0.001;
+
+		if (start.GetZ() < 0 && end.GetZ() > 0)
+			start.data[2] = 0.001;
+
+		if (start.GetZ() > 0 && end.GetZ() > 0) {
+			start.Set(start.GetX() / start.GetZ(), start.GetY() / start.GetZ(), start.GetZ());
+			start = center * start;
+
+			end.Set(end.GetX() / end.GetZ(), end.GetY() / end.GetZ(), end.GetZ());
+			end = center * end;
+
+			dcBuff.SetPen(wxPen(RGB(segment.color.R, segment.color.G, segment.color.B)));
+			dcBuff.DrawLine(start.GetX() * width, start.GetY() * height, end.GetX() * width, end.GetY() * height);
 		}
-
-		start.Set(start.GetX() / start.GetZ(), start.GetY() / start.GetZ(), start.GetZ());
-		start = center * start;
-
-		end.Set(end.GetX() / end.GetZ(), end.GetY() / end.GetZ(), end.GetZ());
-		end = center * end;
-
-		dcBuff.SetPen(wxPen(RGB(segment.color.R, segment.color.G, segment.color.B)));
-		dcBuff.DrawLine(start.GetX() * width, start.GetY() * height, end.GetX() * width, end.GetY() * height);
 	}
 }
 
