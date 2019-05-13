@@ -99,7 +99,7 @@ void MainWindow::_itemChoiceOnChoice(wxCommandEvent &event) {
 void MainWindow::_waggleCheckBoxOnCheckBox(wxCommandEvent &event) {
 	_angleScroll->Enable(event.IsChecked());
 	if (event.IsChecked()) {
-		_waggleTimer->Start(50);
+		_waggleTimer->Start(1);
 	}
 	else {
 		if (_waggleTimer->IsRunning()) {
